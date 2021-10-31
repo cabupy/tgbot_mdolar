@@ -1,7 +1,7 @@
 require('dotenv').config()
 const { Telegraf } = require('telegraf')
 const axios = require('axios')
-const moment = require('moment')
+const moment = require('moment-timezone')
 
 const bot = new Telegraf(process.env.TOKEN)
 
@@ -55,7 +55,7 @@ bot.command(['mejordolar', 'md'], async (ctx) => {
       if (a.diff(b, 'days') < 4) {
         impresion += `*${cotizacion.entidad}*: ${cotizacion.compra} - ${
           cotizacion.venta
-        } ${b.utc().format('DD/MM HH:mm')}\n`
+        } ${b.tz('America/Asuncion').format('DD/MM/YY HH:mm')}\n`
       }
     })
     impresion += 'Powered by [Vamyal S.A.](https://www.vamyal.com/)'
