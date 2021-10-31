@@ -55,7 +55,7 @@ bot.command(['mejordolar', 'md'], async (ctx) => {
       if (a.diff(b, 'days') < 4) {
         impresion += `*${cotizacion.entidad}*: ${cotizacion.compra} - ${
           cotizacion.venta
-        } ${b.format('DD/MM HH:mm')}\n`
+        } ${b.utc().format('DD/MM HH:mm')}\n`
       }
     })
     impresion += 'Powered by [Vamyal S.A.](https://www.vamyal.com/)'
