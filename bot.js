@@ -20,7 +20,7 @@ bot.start((ctx) => {
     /md para solicitar las cotizaciones (abreviado).
     /help para solicitar ayuda.
     
-    Seguinos en [twitter](https://twitter.com/mejordolarpy)`)
+    Seguinos en [twitter](${process.env.TWITTERURL})`)
   }
 })
 
@@ -37,7 +37,7 @@ bot.help((ctx) => {
     /md para solicitar las cotizaciones (abreviado).
     /help para solicitar ayuda.
     
-    Seguinos en [twitter](https://twitter.com/mejordolarpy)`)
+    Seguinos en [twitter](${process.env.TWITTERURL})`)
   }
 })
 
@@ -59,10 +59,10 @@ bot.command(['mejordolar', 'md'], async (ctx) => {
       if (a.diff(b, 'days') < 4) {
         impresion += `*${cotizacion.entidad}*: ${cotizacion.compra} - ${
           cotizacion.venta
-        } ${b.tz('America/Asuncion').format('DD/MM/YY HH:mm')}\n`
+        } ${b.tz(process.env.TZ).format('DD/MM/YY HH:mm')}\n`
       }
     })
-    impresion += 'Powered by [Vamyal S.A.](https://www.vamyal.com/)'
+    impresion += 'Powered by [Vamyal S.A.](${process.env.SITEURL})'
     ctx.replyWithMarkdown(impresion)
   }
 })
