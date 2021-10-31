@@ -18,7 +18,9 @@ bot.start((ctx) => {
     /start para iniciar conversación.
     /mejordolar para solicitar las cotizaciones.
     /md para solicitar las cotizaciones (abreviado).
-    /help para solicitar ayuda.`)
+    /help para solicitar ayuda.
+    
+    Seguinos en [twitter](https://twitter.com/mejordolarpy)`)
   }
 })
 
@@ -33,7 +35,9 @@ bot.help((ctx) => {
     /start para iniciar conversación.
     /mejordolar para solicitar las cotizaciones.
     /md para solicitar las cotizaciones (abreviado).
-    /help para solicitar ayuda.`)
+    /help para solicitar ayuda.
+    
+    Seguinos en [twitter](https://twitter.com/mejordolarpy)`)
   }
 })
 
