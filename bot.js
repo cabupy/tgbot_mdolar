@@ -4,19 +4,25 @@ const axios = require('axios')
 const moment = require('moment')
 
 const bot = new Telegraf(process.env.TOKEN)
-bot.start((ctx) =>
+
+bot.start((ctx) =>{
+  console.log(`start: ${ctx.from.username}`)
   ctx.replyWithMarkdown(`Bienvenido ${ctx.from.username} al 🤖 *MejorDolarPy*`)
-)
+})
+
 bot.help((ctx) => {
+  console.log(`help: ${ctx.from.username}`)
   ctx.replyWithMarkdown(`*Lista de comandos*:
   /mejordolar para solicitar las cotizaciones.
   /md para solicitar las cotizaciones (abreviado).
   /help para solicitar ayuda.`)
 })
+
 bot.command(['mejordolar', 'md'], async (ctx) => {
   if (ctx.from.is_bot) {
     ctx.reply('No converso con otros bots.')
   } else {
+    console.log(`md: ${ctx.from.username}`)
     const ahora = new Date()
     const cotizaciones = await axios(process.env.APIURL)
     let impresion
@@ -35,8 +41,8 @@ bot.command(['mejordolar', 'md'], async (ctx) => {
     ctx.replyWithMarkdown(impresion)
   }
 })
+
 bot.launch()
 
-// Enable graceful stop
 process.once('SIGINT', () => bot.stop('SIGINT'))
 process.once('SIGTERM', () => bot.stop('SIGTERM'))
