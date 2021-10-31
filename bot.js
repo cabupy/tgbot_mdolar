@@ -7,8 +7,9 @@ const bot = new Telegraf(process.env.TOKEN)
 
 bot.start((ctx) => {
   console.log(`start: ${ctx.from.username}`)
-  if (!ctx.from.username) {
-    ctx.reply('🤖 : No converso con anónimos :(')
+  if (ctx.from.is_bot || !ctx.from.username) {
+    console.log('No converso con anónimos ni con otros bots.')
+    ctx.reply('No converso con anónimos ni con otros bots.')
   } else {
     ctx.replyWithMarkdown(`Bienvenido ${ctx.from.username} al 🤖 *MejorDolarPy*
 
@@ -23,8 +24,9 @@ bot.start((ctx) => {
 
 bot.help((ctx) => {
   console.log(`help: ${ctx.from.username}`)
-  if (!ctx.from.username) {
-    ctx.reply('🤖 : No converso con anónimos :(')
+  if (ctx.from.is_bot || !ctx.from.username) {
+    console.log('No converso con anónimos ni con otros bots.')
+    ctx.reply('No converso con anónimos ni con otros bots.')
   } else {
     ctx.replyWithMarkdown(`*Lista de comandos*:
 
@@ -36,7 +38,9 @@ bot.help((ctx) => {
 })
 
 bot.command(['mejordolar', 'md'], async (ctx) => {
+  console.log(`start: ${ctx.from.username}`)
   if (ctx.from.is_bot || !ctx.from.username) {
+    console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso con anónimos ni con otros bots.')
   } else {
     console.log(`md: ${ctx.from.username}`)
