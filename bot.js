@@ -62,7 +62,7 @@ bot.command(['mejordolar', 'md'], async (ctx) => {
         } ${b.tz(process.env.TZ).format('DD/MM/YY HH:mm')}\n`
       }
     })
-    impresion += `Powered by [Vamyal S.A.](${process.env.SITEURL})`
+    impresion += `\nPowered by [Vamyal S.A.](${process.env.SITEURL})`
     ctx.replyWithMarkdown(impresion)
   }
 })
