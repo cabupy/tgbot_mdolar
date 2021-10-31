@@ -7,12 +7,19 @@ const bot = new Telegraf(process.env.TOKEN)
 
 bot.start((ctx) =>{
   console.log(`start: ${ctx.from.username}`)
-  ctx.replyWithMarkdown(`Bienvenido ${ctx.from.username} al 🤖 *MejorDolarPy*`)
+  ctx.replyWithMarkdown(`Bienvenido ${ctx.from.username} al 🤖 *MejorDolarPy*
+
+  *Lista de comandos*:
+  /start para iniciar conversación.
+  /mejordolar para solicitar las cotizaciones.
+  /md para solicitar las cotizaciones (abreviado).
+  /help para solicitar ayuda.`)
 })
 
 bot.help((ctx) => {
   console.log(`help: ${ctx.from.username}`)
   ctx.replyWithMarkdown(`*Lista de comandos*:
+  /start para iniciar conversación.
   /mejordolar para solicitar las cotizaciones.
   /md para solicitar las cotizaciones (abreviado).
   /help para solicitar ayuda.`)
