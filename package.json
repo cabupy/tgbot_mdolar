@@ -1,0 +1,32 @@
+{
+  "name": "tgbot_mdolar",
+  "version": "1.0.0",
+  "description": "Bot de consulta Mejor Dolar",
+  "main": "bot.js",
+  "scripts": {
+    "test": "node bot.js",
+    "start": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:cabupy/tgbot_mdolar.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cabupy/tgbot_mdolar/issues"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "useTabs": false
+  },
+  "author": "Carlos Vallejos",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dotenv": "^10.0.0",
+    "moment": "^2.29.1",
+    "telegraf": "^4.4.2"
+  }
+}
