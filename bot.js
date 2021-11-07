@@ -38,22 +38,32 @@ const getHelp = () => {
 }
 
 const getDataFromAPI = async () => {
-  const cotizaciones = await axios(process.env.APIURL)
-  const datosFiltrados = _.filter(cotizaciones.data, function (d) {
-    return moment(new Date()).diff(moment(d.fecha_hora), 'days') < 4
-  })
-  return datosFiltrados
+  try {
+    const cotizaciones = await axios(process.env.APIURL)
+    const datosFiltrados = _.filter(cotizaciones.data, function (d) {
+      return moment(new Date()).diff(moment(d.fecha_hora), 'days') < 4
+    })
+    return Promise.resolve(datosFiltrados)
+  } catch (error) {
+    console.log(error)
+    return Promise.resolve([])
+  }
 }
 
 const getDataFromAPIEntity = async () => {
-  const cotizaciones = await axios(process.env.APIURL)
-  return _.filter(cotizaciones.data, function (d) {
-    return (
-      moment(new Date()).diff(moment(d.fecha_hora), 'days') < 4 &&
-      d.entidad !== 'bcp' &&
-      d.entidad !== 'set'
-    )
-  })
+  try {
+    const cotizaciones = await axios(process.env.APIURL)
+    return _.filter(cotizaciones.data, function (d) {
+      return (
+        moment(new Date()).diff(moment(d.fecha_hora), 'days') < 4 &&
+        d.entidad !== 'bcp' &&
+        d.entidad !== 'set'
+      )
+    })
+  } catch (error) {
+    console.log(error)
+    return Promise.resolve([])
+  }
 }
 
 const getFormatList = (data) => {
@@ -68,8 +78,21 @@ const getFormatList = (data) => {
   return impresion
 }
 
+const fnOpciones = async (ctx) => {
+  return await ctx.reply(
+    'Elegí una de las opciones: ',
+    Markup.keyboard([
+      ['BCP', 'SET'],
+      ['Mejor Venta', 'Mejor Compra'],
+      ['Cancelar'],
+    ])
+      .oneTime()
+      .resize()
+  )
+}
+
 const fnMejorVenta = async (ctx) => {
-  if (ctx.from.is_bot || !ctx.from.username) {
+  if (ctx.from.is_bot /*|| !ctx.from.username*/) {
     console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso 🤬 con anónimos ni con otros bots.')
   } else {
@@ -83,7 +106,7 @@ const fnMejorVenta = async (ctx) => {
 }
 
 const fnMejorCompra = async (ctx) => {
-  if (ctx.from.is_bot || !ctx.from.username) {
+  if (ctx.from.is_bot /*|| !ctx.from.username*/) {
     console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso 🤬 con anónimos ni con otros bots.')
   } else {
@@ -98,7 +121,7 @@ const fnMejorCompra = async (ctx) => {
 }
 
 const fnBCP = async (ctx) => {
-  if (ctx.from.is_bot || !ctx.from.username) {
+  if (ctx.from.is_bot /*|| !ctx.from.username*/) {
     console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso 🤬 con anónimos ni con otros bots.')
   } else {
@@ -113,7 +136,7 @@ const fnBCP = async (ctx) => {
 }
 
 const fnSET = async (ctx) => {
-  if (ctx.from.is_bot || !ctx.from.username) {
+  if (ctx.from.is_bot /*|| !ctx.from.username*/) {
     console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso 🤬 con anónimos ni con otros bots.')
   } else {
@@ -129,7 +152,7 @@ const fnSET = async (ctx) => {
 
 bot.start((ctx) => {
   console.log(`start: ${ctx.from.username}`)
-  if (ctx.from.is_bot || !ctx.from.username) {
+  if (ctx.from.is_bot /*|| !ctx.from.username*/) {
     console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso 🤬 con anónimos ni con otros bots.')
   } else {
@@ -143,7 +166,7 @@ bot.start((ctx) => {
 
 bot.help((ctx) => {
   console.log(`help: ${ctx.from.username}`)
-  if (ctx.from.is_bot || !ctx.from.username) {
+  if (ctx.from.is_bot /*|| !ctx.from.username*/) {
     console.log('No converso con anónimos ni con otros bots.')
     ctx.reply('No converso 🤬 con anónimos ni con otros bots.')
   } else {
@@ -156,23 +179,12 @@ bot.command(['mejorcompra', 'mc'], fnMejorCompra)
 bot.command(['set'], fnSET)
 bot.command(['bcp'], fnBCP)
 
-bot.command(['opciones'], async (ctx) => {
-  return await ctx.reply(
-    'Elegí una de las opciones: ',
-    Markup.keyboard([
-      ['BCP', 'SET'], 
-      ['Mejor Venta', 'Mejor Compra'],
-      ['Cancelar']
-    ])
-      .oneTime()
-      .resize()
-  )
-})
+bot.command(['opciones'], fnOpciones)
 bot.hears('Mejor Venta', fnMejorVenta)
 bot.hears('Mejor Compra', fnMejorCompra)
 bot.hears('BCP', fnBCP)
 bot.hears('SET', fnSET)
-bot.hears('Cancelar', ctx => ctx.reply('Ok ! Cancelado.'))
+bot.hears('Cancelar', (ctx) => ctx.reply('Ok ! Cancelado.'))
 
 bot.launch()
 
